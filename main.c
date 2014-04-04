@@ -53,6 +53,7 @@ char *cut2(char *, char *);
 char *strremove_wrapper(char *, char *);
 char *remove_word_wrapper(char *, char *);
 char *strcut_wrapper(char *, char *);
+char *undebugq(char *, char *);
 
 struct part {
 	char *name;
@@ -76,6 +77,7 @@ struct part {
 	{ .name = "wota", .fname = "strremove", .f = &strremove_wrapper },
 	{ .name = "wota", .fname = "remove_word", .f = &remove_word_wrapper },
 	{ .name = "anonymous", .fname = "strcut", .f = &strcut_wrapper },
+	{ .name = "qnikst", .fname = "undebugq", .f = &undebugq },
 	{ NULL },
 };
 
