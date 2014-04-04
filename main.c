@@ -33,6 +33,7 @@ struct test {
 	{ "systemd.debug", "systemd.debug", "debug" },
 	{ "debug 123 debug 456", "123 456", "debug" },
 	{ "debug debugfs debug debug=1 systemd.debug debug", "debugfs debug=1 systemd.debug", "debug" },
+    { "debu", "debu", "debug" },
 	{ NULL }
 };
 
