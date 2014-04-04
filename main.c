@@ -180,7 +180,7 @@ result(struct part *p)
 	printf("%-16s| %-16s| %-12s| %-12s| %-12s\n",
 	    "---", "---", "---", "---", "---");
 	for (; p->name != NULL; p++)
-		printf("%-16s| %-16s|%8d |%8.2f ms | %9.2f %% \n",
+		printf("%-16s| %-16s|%12d |%9.2f ms | %9.2f %% \n",
 		    p->name, p->fname, p->passed,
 		    p->grostime, 100.0 * (p->grostime - minval) / minval);
 }
