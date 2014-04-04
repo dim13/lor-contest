@@ -1,7 +1,7 @@
 PROG=	contest
 OBJS=	main.o beastie.o Eddy_Em.o Gvidon.o \
 	KennyMinigun.o nokachi.o qulinxao.o true_admin.o wota.o \
-	anonymous.o
+	anonymous.o puzan.o
 CFLAGS+=-O2
 
 $(PROG): $(OBJS)
