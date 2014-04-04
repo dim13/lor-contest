@@ -33,6 +33,7 @@ struct test {
 	{ "systemd.debug", "systemd.debug", "debug" },
 	{ "debug 123 debug 456", "123 456", "debug" },
 	{ "debug debugfs debug debug=1 systemd.debug debug", "debugfs debug=1 systemd.debug", "debug" },
+    { "debu", "debu", "debug" },
 	{ NULL }
 };
 
@@ -53,6 +54,8 @@ char *cut2(char *, char *);
 char *strremove_wrapper(char *, char *);
 char *remove_word_wrapper(char *, char *);
 char *strcut_wrapper(char *, char *);
+char *undebugq(char *, char *);
+char *strcutm(char *, char *);
 
 struct part {
 	char *name;
@@ -76,6 +79,8 @@ struct part {
 	{ .name = "wota", .fname = "strremove", .f = &strremove_wrapper },
 	{ .name = "wota", .fname = "remove_word", .f = &remove_word_wrapper },
 	{ .name = "anonymous", .fname = "strcut", .f = &strcut_wrapper },
+	{ .name = "qnikst", .fname = "undebugq", .f = &undebugq },
+	{ .name = "mix-mix", .fname = "strcut", .f = &strcutm },
 	{ NULL },
 };
 
@@ -177,7 +182,7 @@ result(struct part *p)
 	printf("%-16s| %-16s| %-12s| %-12s| %-12s\n",
 	    "---", "---", "---", "---", "---");
 	for (; p->name != NULL; p++)
-		printf("%-16s| %-16s|%8d |%8.2f ms | %9.2f %% \n",
+		printf("%-16s| %-16s|%12d |%9.2f ms | %9.2f %% \n",
 		    p->name, p->fname, p->passed,
 		    p->grostime, 100.0 * (p->grostime - minval) / minval);
 }
