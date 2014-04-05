@@ -42,3 +42,40 @@ str_drop_str(char *str, char *sub)
 
 	return str;
 }
+
+char*
+str_mask_str(char* str, const char* sub)
+{
+    char ch, subc;
+    const char* sub_slide = sub;
+    char* str_slide = str;
+    char* str_fill;
+
+    goto l1;
+
+    while ((ch = *str_slide)) {
+        str_slide ++;
+        if (ch == ' ') {
+        l1:
+            for (;;) {
+                ch = *str_slide;
+                subc = *sub_slide;
+                
+                if ((subc == ch) && subc) {
+                    str_slide ++;
+                    sub_slide ++;
+                } else
+                    break;
+            }
+    
+            if (!subc && (ch == ' ' || ch == '\0')) {
+                for (str_fill = str_slide - (sub_slide - sub);
+                     str_fill != str_slide; *str_fill++ = ' ');
+            }
+            
+            sub_slide = sub;
+        }
+    }
+
+    return str;
+}

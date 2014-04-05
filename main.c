@@ -72,6 +72,7 @@ char *strremove_wrapper(char *, char *);
 char *remove_word_wrapper(char *, char *);
 char *strcut_wrapper(char *, char *);
 char *str_drop_str(char *, char *);
+char *str_mask_str(char *, char *);
 char *undebugq(char *, char *);
 char *undebugq_ker(char *, char *);
 char *strcutm(char *, char *);
@@ -107,7 +108,8 @@ struct part {
 	{ .name = "wota", .fname = "undebug_wota", .f = &undebug_wota_wrapper },
 	{ .name = "anonymous", .fname = "strcut", .f = &strcut_wrapper },
 	{ .name = "anonymous", .fname = "anon_strcut", .f = &anon_strcut},
-	{ .name = "puzan", .fname = "str_drop_str", .f = &str_drop_str },
+    { .name = "puzan", .fname = "str_drop_str", .f = &str_drop_str },
+    { .name = "puzan", .fname = "str_mask_str", .f = &str_mask_str },
 	{ .name = "qnikst", .fname = "undebugq uspace", .f = &undebugq },
 	{ .name = "qnikst", .fname = "undebugq", .f = &undebugq_ker },
 	{ .name = "mix-mix", .fname = "strcut", .f = &strcutm },
