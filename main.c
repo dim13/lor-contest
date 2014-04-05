@@ -40,6 +40,7 @@ struct test {
 	int contest;
 } testcases[] = {
 	{ "debug", "", "debug" },
+	{ "debug debug", " ", "debug" },
 	{ "debu", "debu", "debug" },
 	{ "debugfs", "debugfs", "debug" },
 	{ "debug=1", "debug=1", "debug" },
@@ -94,6 +95,8 @@ char *strcut_wrapper(char *, char *);
 char *str_drop_str(char *, char *);
 char *str_mask_str(char *, char *);
 char *undebugq(char *, char *);
+char *undebugq2(char *, char *);
+char *undebugq3(char *, char *);
 char *undebugq_ker(char *, char *);
 char *strcutm(char *, char *);
 char *carb_wrapper(char *, char *);
@@ -133,6 +136,8 @@ struct part {
 	{ .name = "puzan", .fname = "str_drop_str", .f = &str_drop_str },
 	{ .name = "puzan", .fname = "str_mask_str", .f = &str_mask_str },
 	{ .name = "qnikst", .fname = "undebugq uspace", .f = &undebugq },
+	{ .name = "qnikst", .fname = "undebugq2", .f = &undebugq2 },
+	{ .name = "qnikst", .fname = "undebugq3", .f = &undebugq3 },
 	{ .name = "qnikst", .fname = "undebugq", .f = &undebugq_ker },
 	{ .name = "mix-mix", .fname = "strcut", .f = &strcutm },
 	{ .name = "Carb", .fname = "debugdel", .f = &carb_wrapper },
