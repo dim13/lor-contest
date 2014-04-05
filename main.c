@@ -40,14 +40,33 @@ struct test {
 	{ "debugfs", "debugfs", "debug" },
 	{ "debug=1", "debug=1", "debug" },
 	{ "systemd.debug", "systemd.debug", "debug" },
+	{ "systemd.debug", "", "systemd.debug" }, //do we handle different strings?
 	{ "debug 123 debug 456", "123 456", "debug" },
 	{ "debug debugfs debug debug=1 systemd.debug debug", "debugfs debug=1 systemd.debug", "debug" },
+    // end of the string
 	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro debug",
 	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro", "debug" },
-	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 dolvm debug debug=UUID=42debug5-6ee1-464c-bc41-debug42debug debug ro",
+    // begining of the string
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug dolvm debug=UUID=42debug5-6ee1-464c-bc41-debug42debug debug ro",
 	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 dolvm debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro", "debug" },
+    // multiple times
 	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug dolvm debug debug=UUID=42debug5-6ee1-464c-bc41-debug42debug debug ro",
 	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 dolvm debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro", "debug" },
+    // long needle middle
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro debug",
+	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 ro debug", "debug=UUID=42debug5-6ee1-464c-bc41-debug42debug" },
+    // long needle end
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 ro debug debug=UUID=42debug5-6ee1-464c-bc41-debug42debug",
+	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 ro debug", "debug=UUID=42debug5-6ee1-464c-bc41-debug42debug"},
+    // long needle beging
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro debug",
+	  "debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro", "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64" },
+    // no remove short
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro debuq",
+	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debug ro debuq", "debug" },
+    // no remove long
+	{ "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debuq ro debug",
+	  "BOOT_IMAGE=/debug/vmlinuz-3.2.0-debug-amd64 debug=UUID=42debug5-6ee1-464c-bc41-debug42debuq ro debug", "debug=UUID=42debug5-6ee1-464c-bc41-debug42debug" },
 	{ NULL }
 };
 
