@@ -100,6 +100,7 @@ char *undebugq3(char *, char *);
 char *undebugq_ker(char *, char *);
 char *strcutm(char *, char *);
 char *carb_wrapper(char *, char *);
+char *strreplace(char *, char *);
 char *anon_strcut(char *, char *);
 char *undebug_wota_wrapper(char *, char *);
 char *anon_wipedebug(char *, char *);
@@ -141,6 +142,7 @@ struct part {
 	{ .name = "qnikst", .fname = "undebugq", .f = &undebugq_ker },
 	{ .name = "mix-mix", .fname = "strcut", .f = &strcutm },
 	{ .name = "Carb", .fname = "debugdel", .f = &carb_wrapper },
+	{ .name = "Carb", .fname = "strreplace", .f = &strreplace },
 	{ NULL },
 };
 

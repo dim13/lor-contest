@@ -31,3 +31,19 @@ carb_wrapper(char *hey, char *needle)
 {
 	return debugdel(hey);
 }
+
+char *
+strreplace(char *str, char *needl)
+{
+	char *ret = str;
+	typeof(strlen(needl)) needl_len = strlen(needl);
+	while ((str = strstr(str, needl))) {
+		if ((str == ret) || (*(str - 1) == ' ')) {
+			char end = *(str + needl_len);
+			if ((end == ' ') || (end == '\0'))
+				memset(str, ' ', needl_len);
+		}
+		str += needl_len;
+	}
+	return ret;
+}
