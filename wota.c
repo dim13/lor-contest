@@ -83,7 +83,7 @@ undebug_wota_wrapper(char *hay, char *needle)
 static void
 remove_word(char *s, const char *w)
 {
-	if (strcmp(w, "debug") == 0)	/* optimization for most used case */
+	if (w == "debug")	/* optimization for most used case */
 		return undebug_wota(s);
 
 	int l = strlen(w);
