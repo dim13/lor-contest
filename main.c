@@ -207,7 +207,7 @@ prepare(struct part *p, struct test *test)
 	/* remove whitespaces from output for compare */
 	p->pass = !strcmp(strip(o), strip(t));
 	p->passed += p->pass;
-	strlcat(p->pchart, p->pass ? "#" : "_", sizeof(p->pchart));
+	strlcat(p->pchart, p->pass ? "*" : "_", sizeof(p->pchart));
 
 	if (o != s)
 		free(o);
