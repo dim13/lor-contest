@@ -104,7 +104,7 @@ char *strreplace(char *, char *);
 char *anon_strcut(char *, char *);
 char *undebug_wota_wrapper(char *, char *);
 char *anon_wipedebug(char *, char *);
-
+char *undebugit2_wrapper(char *,char *);
 struct part {
 	char *name;
 	char *(*f) (char *, char *);
@@ -143,6 +143,7 @@ struct part {
 	{ .name = "mix-mix", .fname = "strcut", .f = &strcutm },
 	{ .name = "Carb", .fname = "debugdel", .f = &carb_wrapper },
 	{ .name = "Carb", .fname = "strreplace", .f = &strreplace },
+	{ .name = "MKuznetsov", .fname = "undebugit2", .f = &undebugit2_wrapper },
 	{ NULL },
 };
 
