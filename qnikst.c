@@ -77,15 +77,17 @@ undebugq(char *in, char *needle)
 {
 	char *p = in;
 	char *eoi = NULL, // pointer to the end of input
-		*pt = NULL;  // temporary pointer
+		*pt = p-1;  // temporary pointer
 	do {
+        p = pt+1;
 		if ((pt = strmatch(p, needle)) != NULL) {
 			if (*pt == ' ') {
 				if (!eoi)
 					eoi = pt + strlen(pt);
 				user_memmove(p, pt + 1, eoi - pt + 1);	// we need to copy \0
 				eoi -= pt - p;
-				continue;
+                pt = p - 1;
+                continue;
 			} 
 			if (*pt == '\0') {
 				*p = '\0';
@@ -93,17 +95,18 @@ undebugq(char *in, char *needle)
 			}
 			p = pt;
 		}
-		p = strchr(p, ' ');
-	} while (p && p++);
+		pt = strchr(p, ' ');
+	} while (pt);
 	return in;
 }
 
 char *
 undebugq2(char *in, char *needle)
 {
-	char *p = in;
-	char *pt = NULL;  // temporary pointer
+	char *p = NULL;
+	char *pt = in-1;  // temporary pointer
 	do {
+        p = pt + 1;
 		if ((pt = strmatch(p, needle)) != NULL) {
 			if (*pt == ' ') {
                 char *ip   = pt + 1;
@@ -141,17 +144,18 @@ undebugq2(char *in, char *needle)
 			}
 			p = pt;
 		}
-		p = strchr(p, ' ');
-	} while (p && p++);
+		pt = strchr(p, ' ');
+	} while (pt);
 	return in;
 }
 
 char *
 undebugq3(char *in, char *needle)
 {
-	char *p = in;
-	char *pt = NULL;// temporary pointer
+	char *p = NULL;
+	char *pt = in -1;// temporary pointer
 	do {
+        p = pt + 1;
 		if ((pt = strmatch(p, needle)) != NULL) {
 			if (*pt == ' ') {
                 char *ip   = pt + 1;
@@ -190,24 +194,26 @@ undebugq3(char *in, char *needle)
 			}
 			p = pt;
 		}
-		p = strchr(p, ' ');
-	} while (p && p++);
+		pt = strchr(p, ' ');
+	} while (pt);
 	return in;
 }
 
 char *
 undebugq_ker(char *in, char *needle)
 {
-	char *p = in;
+	char *p = NULL;
 	char *eoi = NULL, // pointer to the end of input
-		*pt = NULL;  // temporary pointer
+		*pt = in - 1;  // temporary pointer
 	do {
+        p = pt+1;
 		if ((pt = strmatch(p, needle)) != NULL) {
 			if (*pt == ' ') {
 				if (!eoi)
 					eoi = pt + strlen(pt);
 				memmove(p, pt + 1, eoi - pt + 1);	// we need to copy \0
 				eoi -= pt - p;
+                pt = p - 1;
 				continue;
 			} 
 			if (*pt == '\0') {
@@ -216,17 +222,18 @@ undebugq_ker(char *in, char *needle)
 			}
 			p = pt;
 		}
-		p = strchr(p, ' ');
-	} while (p && p++);
+		pt = strchr(p, ' ');
+	} while (pt);
 	return in;
 }
-
 
 /*
 main() {
     char *s = strdup("debug debug");
-//    char *s = strdup("debug 123 debug 456");
-//    char *s = strdup("debug debugfs debug debug=1 systemd.debug debug");
-    printf(":%s",undebugq3(s,"debug"));
-}
-*/
+    printf(":%s|\n",undebugq(s,"debug"));
+    s = strdup("debug 123 debug 456");
+    printf(":%s|\n",undebugq(s,"debug"));
+    s = strdup("debug debugfs debug debug=1 systemd.debug debug");
+    printf(":%s|\n",undebugq(s,"debug"));
+}*/
+
