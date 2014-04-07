@@ -73,7 +73,7 @@ FINAL:
 	return ret;
 }
 char *
-undebugit2_wrapper(char *ignored,char *s) {
+undebugit2_wrapper(char *s,char *ignored) {
 	return (char *)undebugit2((uint8_t *)s);
 }
 
