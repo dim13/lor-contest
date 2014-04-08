@@ -1,0 +1,16 @@
+PROG=	perftest
+OBJS=	Eddy_Em.o Gvidon.o \
+	KennyMinigun.o nokachi.o qulinxao.o true_admin.o wota.o \
+	anonymous.o nop.o puzan.o qnikst.o Carb.o undebugit2.o \
+        perftest_mk.o
+CFLAGS+=-Wall -O3
+LDLIBS+=-lgnurx
+
+$(PROG): $(OBJS)
+	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LDLIBS)
+
+clean:
+	$(RM) $(OBJS) $(PROG)
+
+.PHONY: clean
+
