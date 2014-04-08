@@ -76,6 +76,7 @@ struct test {
 };
 
 char *nop(char *, char *);
+char *strrm(char *, char *);
 char *cutout(char *, char *);
 char *cutout_orig(char *, char *);
 char *undebug(char *, char *);
@@ -144,6 +145,7 @@ struct part {
 	{ .name = "Carb", .fname = "debugdel", .f = &carb_wrapper },
 	{ .name = "Carb", .fname = "strreplace", .f = &strreplace },
 	{ .name = "MKuznetsov", .fname = "undebugit2", .f = &undebugit2_wrapper },
+	{ .name = "ksergeyv", .fname = "strrm", .f = &strrm },
 	{ NULL },
 };
 
