@@ -10,5 +10,8 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJS) $(PROG)
+	$(RM) *.obj
+	$(RM) *.exe
+	$(RM) *.lnk
 
 .PHONY: clean
