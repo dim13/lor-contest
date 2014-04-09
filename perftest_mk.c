@@ -237,7 +237,7 @@ no_has_debug(char *p1,char *p2,char *r,char *regular) {
 }*/
 int
 strlen_eq(char *p1,char *p2,char *r,char *length) {
-	long len;
+	size_t len;
 	len=strtol(length,NULL,0);
 	if (errno) {
 		fprintf(stderr,"strtol(%s)\n",length);
@@ -280,7 +280,7 @@ cmp_words(char *p1,char *p2,char *r,char *s) {
 	} while(*r==*s && *r);
 	return (*s == *r);
 }
-static int
+static time_t
 invoke_test(
 	char *(*f)(char *,char *),			// тестируемая функция
 	char *p1,char *p2,					// её аргументы
@@ -293,7 +293,7 @@ invoke_test(
 		char text[];	// тестовая строка
 	} **data,*d;
 	struct timeval start,finish;
-	int delta;
+	time_t delta;
 	int len;	// длина строки для тестирования
 	uint16_t t;
 	/* готовим данные для тестирования */
@@ -378,7 +378,7 @@ invoke_test(
 }
 
 void perftest(struct Pretender *person,struct Test *test) {
-	int **matrix;
+	time_t **matrix;
 	int t,p;
 	// кол-во претендентов
 	for(p=0;person[p].nick;) {
@@ -389,13 +389,13 @@ void perftest(struct Pretender *person,struct Test *test) {
 		t++;
 	}
 	// матрица результатов
-	matrix=calloc(sizeof(int *),p);
+	matrix=calloc(sizeof(time_t *),p);
 	if (matrix==NULL) {
 		fprintf(stderr,"matrix=calloc()\n");
 		exit(EXIT_FAILURE);
 	}
 	for(;p>=0;p--) {
-		matrix[p]=calloc(sizeof(int),t);
+		matrix[p]=calloc(sizeof(time_t),t);
 		if (matrix[p]==NULL) {
 			fprintf(stderr,"matrix[p]=calloc()\n");
 			exit(EXIT_FAILURE);
@@ -414,7 +414,7 @@ void perftest(struct Pretender *person,struct Test *test) {
 	// вывод отчёта
 	for(p=0;person[p].nick;p++) {
 		unsigned long complete;
-		unsigned long elapsed;
+		uint64_t elapsed;
 		printf("%s %s ",person[p].nick,person[p].fname);
 		complete=0;
 		elapsed=0;

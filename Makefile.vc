@@ -1,10 +1,10 @@
-CFLAGS=/MD
+CFLAGS=/MD /Ot /Wall
 
 OBJS=perftest_mk.obj \
 Eddy_Em.obj Gvidon.obj KennyMinigun.obj \
 anonymous.obj nokachi.obj nop.obj \
 puzan.obj qulinxao.obj true_admin.obj \
-undebugit2.obj wota.obj 
+undebugit2.obj wota.obj  qnikst.obj
 # beastie.obj mix-mix.obj 
 # Carb.obj qnikst.obj
 #removed
