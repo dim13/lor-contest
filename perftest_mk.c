@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <sys/time.h>
-#include <regex.h>
+#include <time.h>
 
 #ifndef REPEATS
 #define REPEATS 40000
@@ -52,27 +51,27 @@ struct Pretender pretenders[]={
 //	{ "beastie", "undebug", undebug },
 //	{ "beastie", "split", split },
 //	{ "beastie", "wipeout", wipeout },
-//	{ "Eddy_Em", "delsubstr", delsubstr },
-	{ "Gvidon", "process", process_wrapper },
+	{ "Eddy_Em", "delsubstr", delsubstr },
+//	{ "Gvidon", "process", process_wrapper },
 	{ "KennyMinigun", "strdel", strdel_wrapper },
 	{ "nokachi", "remove", remove_string },
 	{ "qulinxao", "wordstrings", wordstrips },
 //	{ "true_admin", "cut", cut },
 //	{ "true_admin", "cut2", cut2 },
-//	{ "wota", "strremove", strremove_wrapper },
-//	{ "wota", "remove_word", remove_word_wrapper },
+	{ "wota", "strremove", strremove_wrapper },
+	{ "wota", "remove_word", remove_word_wrapper },
 	{ "wota", "undebug_wota", undebug_wota_wrapper },
-//	{ "anonymous", "strcut", strcut_wrapper },
+	{ "anonymous", "strcut", strcut_wrapper },
 	{ "anonymous", "anon_strcut", anon_strcut},
 	{ "anonymous", "anon_wipedebug", anon_wipedebug},
 	{ "puzan", "str_drop_str", str_drop_str },
 	{ "puzan", "str_mask_str", str_mask_str },
-	{ "qnikst", "undebugq uspace", undebugq },
-	{ "qnikst", "undebugq2", undebugq2 },
-	{ "qnikst", "undebugq3", undebugq3 },
-	{ "qnikst", "undebugq", undebugq_ker },
+//	{ "qnikst", "undebugq uspace", undebugq },
+//	{ "qnikst", "undebugq2", undebugq2 },
+//	{ "qnikst", "undebugq3", undebugq3 },
+//	{ "qnikst", "undebugq", undebugq_ker },
 //	{ "mix-mix", "strcut", strcutm },
-	{ "Carb", "debugdel", carb_wrapper },
+//	{ "Carb", "debugdel", carb_wrapper },
 //	{ "Carb", "strreplace", strreplace },
 	{ "MKuznetsov", "undebugit2", undebugit2_wrapper },	
 	{ 0 }
@@ -86,8 +85,10 @@ struct Test {
 };
 
 // набор тестов 
+/*
 int no_has_regex(char *p1,char *p2,char *r,char *regular);	// =1 если regular не подходит
 int no_has_debug(char *p1,char *p2,char *r,char *ignore);	// =1 если не соотв. "(^| )debug( |$)"
+*/
 int empty_line(char *p1,char *p2,char *r,char *ignore);		// =1 если строка пуста или содержит только пробелы
 int strlen_eq(char *p1,char *p2,char *r,char *decimal);		// =1 если длина равна decimal
 int cmp_words(char *p1,char *p2,char *r,char *words);		// =1 если r==words (пословное сравнение)
@@ -154,14 +155,69 @@ struct Test testcase[]={
 */	
 	{ 0 }
 };
+/*** Windows VisualC patch for ommited gettimeofday ***/
+/*** from: http://social.msdn.microsoft.com/Forums/vstudio/en-US/430449b3-f6dd-4e18-84de-eebd26a8d668/gettimeofday?forum=vcgeneral ***/	
+#ifndef _MSC_VER 
+#include <sys/time.h>
+#else
 
-int
+#include < time.h >
+#include <windows.h> //I've ommited this line.
+#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
+#else
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
+#endif
+ 
+struct timezone 
+{
+  int  tz_minuteswest; /* minutes W of Greenwich */
+  int  tz_dsttime;     /* type of dst correction */
+};
+ 
+int gettimeofday(struct timeval *tv, struct timezone *tz)
+{
+  FILETIME ft;
+  unsigned __int64 tmpres = 0;
+  static int tzflag;
+ 
+  if (NULL != tv)
+  {
+    GetSystemTimeAsFileTime(&ft);
+ 
+    tmpres |= ft.dwHighDateTime;
+    tmpres <<= 32;
+    tmpres |= ft.dwLowDateTime;
+ 
+    /*converting file time to unix epoch*/
+    tmpres -= DELTA_EPOCH_IN_MICROSECS; 
+    tmpres /= 10;  /*convert into microseconds*/
+    tv->tv_sec = (long)(tmpres / 1000000UL);
+    tv->tv_usec = (long)(tmpres % 1000000UL);
+  }
+ 
+  if (NULL != tz)
+  {
+    if (!tzflag)
+    {
+      _tzset();
+      tzflag++;
+    }
+    tz->tz_minuteswest = _timezone / 60;
+    tz->tz_dsttime = _daylight;
+  }
+  return 0;
+}
+#endif
+/*** END_OF_MS_PATCH ***/
+
+time_t
 diff_timeval(struct timeval *t1, struct timeval *t2)
 {
     return (((t1->tv_sec - t2->tv_sec) * 1000L) + 
             (t1->tv_usec - t2->tv_usec))/1000L;
 }
-
+/*
 int
 no_has_regex(char *p1,char *p2,char *r,char *regular) {
 	int ret;
@@ -178,7 +234,7 @@ no_has_regex(char *p1,char *p2,char *r,char *regular) {
 int
 no_has_debug(char *p1,char *p2,char *r,char *regular) {
 	return no_has_regex(p1,p2,r,"(^| )debug( |$)");
-}
+}*/
 int
 strlen_eq(char *p1,char *p2,char *r,char *length) {
 	long len;
@@ -224,7 +280,7 @@ cmp_words(char *p1,char *p2,char *r,char *s) {
 	} while(*r==*s && *r);
 	return (*s == *r);
 }
-inline int
+static int
 invoke_test(
 	char *(*f)(char *,char *),			// тестируемая функция
 	char *p1,char *p2,					// её аргументы
@@ -354,6 +410,7 @@ void perftest(struct Pretender *person,struct Test *test) {
 		}
 		fprintf(stderr,"\n");
 	}
+	//return;
 	// вывод отчёта
 	for(p=0;person[p].nick;p++) {
 		unsigned long complete;
@@ -367,13 +424,13 @@ void perftest(struct Pretender *person,struct Test *test) {
 				elapsed+=matrix[p][t];
 			}
 		}
-		printf("\t %lu %.3f \t",complete,(double)elapsed/1000);
+		printf("\t %lu %lu.%lu \t",complete,elapsed/1000,elapsed%1000);
 		for(t=0;test[t].p1;t++) {
 			if (t!=0) putchar(' ');
 			if (matrix[p][t]==-1) {
 				printf("fail");
 			} else {
-				printf("%.3f",(double)matrix[p][t]/1000);
+				printf("%d",matrix[p][t]);
 			}
 		}
 		putchar('\n');
