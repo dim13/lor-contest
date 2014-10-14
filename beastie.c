@@ -73,8 +73,8 @@ undebug(char *hay, char *needle)
 
 	while ((s = strstr(s, needle)) != NULL) {
 		n = s + len;
-		if ((*n == '\0' || *n++ == ' ') && (s == hay
-			|| *(s - 1) == ' '))
+		if ((*n == '\0' || *n++ == ' ')
+		&& (s == hay || *(s - 1) == ' '))
 			memmove(s, n, end - n + 1);
 		else
 			s = n;
