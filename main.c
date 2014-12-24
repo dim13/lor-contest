@@ -397,8 +397,7 @@ main(int argc, char **argv)
 	result(part, user);
 #endif
 
-	if (user)
-		free(user);
+	free(user);
 
 	return 0;
 }
